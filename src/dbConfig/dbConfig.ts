@@ -1,20 +1,19 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-export default function connectToMongoDB() {
-  try {
-    mongoose.connect(process.env.MONGODB_URI!);
-    const connection = mongoose.connection;
+export async function connectToMongoDB() {
+	try {
+		mongoose.connect(process.env.MONGO_URI!);
+		const connection = mongoose.connection;
 
-    connection.on("connected", () => {
-      console.log("MongoDB connected successfully..");
-    });
+		connection.on('connected', () => {
+			console.log('Great! MongoDb is connected bro!');
+		});
 
-    connection.on("error", (err) => {
-      console.log("MongoDB Connection Error", +err);
-    });
-  } catch (error) {
-    console.log(
-      "Ups ! Something went wrong with MongoDB connection..." + error
-    );
-  }
+		connection.on('error', (err) => {
+			console.log('MongoDB connected ERROR. ' + err);
+			process.exit();
+		});
+	} catch (error) {
+		console.log('Ups! Something went wrong! ' + error);
+	}
 }
